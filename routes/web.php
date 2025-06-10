@@ -14,8 +14,12 @@ Route::post('/registerpost', [AuthController::class, 'registerpost'])->name('reg
 Route::post('/loginpost', [AuthController::class, 'loginpost'])->name('loginpost');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::group(['middleware' => 'login'], function(){
+Route::get('/forgot-password', [AuthController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'reset'])->name('password.update');
+
+Route::group(['middleware' => 'login'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('indexdashboard');
 });
-
-
